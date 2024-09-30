@@ -30,54 +30,10 @@ namespace Aufgabe4
             {
                 if (n > 0 && n < 13)
                 {
-                    if (n == 1)
-                    {
-                        return "Januar";
-                    }
-                    if (n == 2)
-                    {
-                        return "Februar";
-                    }
-                    if (n == 3)
-                    {
-                        return "März";
-                    }
-                    if (n == 4)
-                    {
-                        return "April";
-                    }
-                    if (n == 5)
-                    {
-                        return "Mai";
-                    }
-                    if (n == 6)
-                    {
-                        return "Juni";
-                    }
-                    if (n == 7)
-                    {
-                        return "Juli";
-                    }
-                    if (n == 8)
-                    {
-                        return "August";
-                    }
-                    if (n == 9)
-                    {
-                        return "September";
-                    }
-                    if (n == 10)
-                    {
-                        return "Oktober";
-                    }
-                    if (n == 11)
-                    {
-                        return "November";
-                    }
-                    if (n == 12)
-                    {
-                        return "Dezember";
-                    }
+
+                    string[] months = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"}
+                    
+                    return months[n+1];
 
                 }
                 
