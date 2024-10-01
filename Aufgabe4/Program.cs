@@ -26,23 +26,24 @@ namespace Aufgabe4
                 Console.ReadKey();
             }
 
-            string GetMonth(int n)
+        }
+
+
+        static string GetMonth(int n)
+        {
+            if (n > 0 && n < 13)
             {
-                if (n > 0 && n < 13)
-                {
 
-                    string[] months = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"}
-                    
-                    return months[n+1];
+                string[] months = { "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember" }
 
-                }
-                
-                
-                return "OutOfRange";
-                
-                       
-                        
+
+                    return months[n + 1];
+
             }
+
+
+            return "OutOfRange";
+
 
         }
 
