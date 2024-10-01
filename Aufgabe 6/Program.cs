@@ -12,12 +12,9 @@ namespace Aufgabe_6
         {
             Console.WriteLine("Aufgabe 6 : Kleines 1x1");
             Console.WriteLine("**************************************************\n");
-            int current_row = 0; int current_column = 1;
-            int num = 1;
-            int f = 11;
-            for (int i =current_column; i != f ; i++)
+            for (int i =1; i != 11 ; i++)
             {
-                for (int b = current_row + num; b != f; b++)
+                for (int b = 0 + 1; b != 11; b++)
                 {
                     int current_num = b * i;
                     Console.Write($"{current_num}\t");
