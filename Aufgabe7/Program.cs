@@ -19,7 +19,7 @@ namespace Aufgabe7
         static string DivisableByThreeOrFive()
         {
             string tk = "";
-            for (float i = 1; i != 31; i++)
+            for (float i = 1; i <= 30; i++)
             { 
                 float rest_3 = i - i / 3;
                 float rest_5 = i - i / 5;
@@ -27,7 +27,7 @@ namespace Aufgabe7
                 if (int.TryParse(Convert.ToString(rest_3), out int n) == true)
                 {
                     tk += $"{i}, ";
-                }
+                } 
                 else if (int.TryParse(Convert.ToString(rest_5), out int e) == true)
                 {
                     tk += $"{i}, ";
