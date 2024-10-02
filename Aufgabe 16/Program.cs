@@ -10,47 +10,39 @@ using Newtonsoft.Json.Linq;
 
 namespace Aufgabe_16
 {
-    public class Text
-    {
-        public string text { get; set; }
-    }
 
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Aufgabe 16 - Witze API");
-            Console.WriteLine(new string('*', 24));
-            Console.WriteLine(ReturnJoke());
-            while (true)
+            Console.WriteLine("Aufgabe 16 - Vokale Zählen");
+            string input = FragenSpeichern("Deine Eingabe: ");
+            char[] vocals = new char[] {
+    'a', 'e', 'i', 'o', 'u', 'ä', 'ö', 'ü',
+    'A', 'E', 'I', 'O', 'U', 'Ä', 'Ö', 'Ü'
+};
+            for (int i = 1; i <= vocals.Length-1; i++)
             {
-                char nj = char.Parse(FragenSpeichern("Nächsten Witz holen?").ToLower());
-                if (nj == 'y')
+                
+                if (CountVocal(vocals[i], input) > 0)
                 {
-                    Console.WriteLine(ReturnJoke());
-                    Console.WriteLine();
+                    Console.WriteLine($"Der Buchstabe '{vocals[i]}' kommt {CountVocal(vocals[i], input)} mal vor");
                 }
-                else
-                {
-                    Console.ReadKey();
-                    }
             }
-            
+            Console.ReadLine();
+ 
+
+
+
         }
-        static string ReturnJoke()
+        static int CountVocal(char character, string text)
         {
-            WebRequest request = WebRequest.Create("https://witzapi.de/api/joke/");
-            
-            WebResponse response = request.GetResponse();
-;
-            StreamReader sr = new StreamReader(response.GetResponseStream());
-            string json = sr.ReadToEnd().ToString(); 
-            
-            JArray array = JArray.Parse(json);
-            return array[0]["text"].ToString();
-
-
-
+            int amount = 0;
+            foreach (char c in text)
+            {
+                if (c == character) amount += 1;
+            }
+            return amount;
         }
         static string FragenSpeichern(string frage)
         {
