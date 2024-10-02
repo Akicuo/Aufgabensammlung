@@ -17,8 +17,8 @@ namespace Aufgabe_19
                 if (Operator(calc_text) != 'x')
                 {
                     
-                    int num1 = GetNums(calc_text, 0);
-                    int num2 = GetNums(calc_text, 1);
+                    float num1 = GetNums(calc_text, 0);
+                    float num2 = GetNums(calc_text, 1);
                     var op = Operator(calc_text);
                     Console.WriteLine(Calculate(num1, num2, op));
                     Console.WriteLine();
@@ -31,19 +31,26 @@ namespace Aufgabe_19
 
             }
         }
-        static int Calculate(int num1, int num2, char Op)
+        static int Calculate(float nume1, float nume2, char Op)
         {
+            double num1 = Convert.ToDouble(nume1);
+            double num2 = Convert.ToDouble(nume2);
             switch (Op)
 
             {
                 case '*':
-                    return num1 * num2;
+                    return (int)(num1 * num2);
                 case '/':
-                    return num1 / num2;
+                    if (num2 == 0)
+                    {
+                        Console.WriteLine("Error: Division by zero (avg calc error)");
+                        return 0;
+                    }
+                    return (int)(num1 / num2);
                 case '+':
-                    return num1 + num2;
+                    return (int)(num1 + num2);
                 case '-':
-                    return num1 - num2;
+                    return (int)(num1 - num2);
                 default:
                     return 'x';
             }

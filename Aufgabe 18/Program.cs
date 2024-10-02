@@ -11,8 +11,6 @@ namespace Aufgabe_18
         static void Main(string[] args)
         {
 
-
-
             string input = FragenSpeichern("Bitte gib ein Geburtsdatum ein:");
             string[] array = new string[3];
             array[0] = input.Split('.')[0]; // day //
@@ -21,21 +19,17 @@ namespace Aufgabe_18
 
             DateTime when = new DateTime(int.Parse(array[2]), int.Parse(array[1]), int.Parse(array[0]), 0, 0, 0);
             TimeSpan ts = DateTime.Now.Subtract(when);
-
-            Console.WriteLine("Alter in Jahren: {0}", 
-                (ts.TotalHours/ 8760));
+            
+            Console.WriteLine("Alter in Jahren: {0}",
+                Math.Floor((ts.TotalHours / 8760)));
             Console.WriteLine("Alter in Monaten: {0}",
-                (ts.TotalHours * 0.001369));
+                Math.Floor(ts.TotalHours * 0.001369));
             Console.WriteLine("Alter in Wochen: {0}",
-                (ts.TotalHours / 168));
-            Console.WriteLine("Alter in Tagen: {0}",
-                (ts.TotalDays));
+                Math.Floor((ts.TotalHours / 168)));
+            Console.WriteLine("Alter in Days: {0}",
+                Math.Floor((ts.TotalDays)));
 
-
-
-
-
-        }
+        } 
         static string FragenSpeichern(string frage)
         {
             Console.Write(frage + " ");

@@ -38,7 +38,7 @@ namespace Aufgabe_17
             WebRequest request = WebRequest.Create("https://witzapi.de/api/joke/");
 
             WebResponse response = request.GetResponse();
-            ;
+            
             StreamReader sr = new StreamReader(response.GetResponseStream());
             string json = sr.ReadToEnd().ToString();
 
