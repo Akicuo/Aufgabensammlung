@@ -41,7 +41,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aufgabe 18", "Aufgabe 18\Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aufgabe 19", "Aufgabe 19\Aufgabe 19.csproj", "{B669F611-6FC3-465F-A70C-4851FF1FEFE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waldbrand", "Waldbrand\Waldbrand.csproj", "{34E8027B-4557-4734-82BB-CF56AB337C04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memory", "Waldbrand\Memory.csproj", "{34E8027B-4557-4734-82BB-CF56AB337C04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
