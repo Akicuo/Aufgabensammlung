@@ -16,13 +16,18 @@ namespace Aufgabe_19
                 string calc_text = FragenSpeichern("Make your calculation (or press Q to quit)\n").Replace(" ", "");
                 if (Operator(calc_text) != 'x')
                 {
-                    
-                    float num1 = GetNums(calc_text, 0);
+                    try { 
+                        float num1 = GetNums(calc_text, 0);
                     float num2 = GetNums(calc_text, 1);
                     var op = Operator(calc_text);
                     Console.WriteLine(Calculate(num1, num2, op));
                     Console.WriteLine();
-                    // Console.WriteLine($"Die Summe ist: {num1 Convert.ToOperator(op) num2}");//
+                        // Console.WriteLine($"Die Summe ist: {num1 Convert.ToOperator(op) num2}");//
+                    }
+                    catch (Exception E)
+                    {
+                        Console.WriteLine("Error... Try again...");
+                    }
                 }
                 else
                 {
