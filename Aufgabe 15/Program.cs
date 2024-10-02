@@ -14,27 +14,59 @@ namespace Aufgabe_15
             Console.WriteLine("Aufgabe 15: Zahlen raten");
             Console.WriteLine(new string('*', 24));
 
-             Random rnd = new Random();
-            int randint = rnd.Next(1, 101);
+             Random rnd = new Random(); // Von Stackoverflow.com //
+            int randint = rnd.Next(1, 101); // Von Stackoverflow.com //
+
+            int versuche = 0;
 
             bool guessed = false;
 
             while (guessed == false)
             {
-                if (int.TryParse(FragenSpeichern("Zahl: "), out int num))
+                if (int.TryParse(FragenSpeichern("Zahl [1-100]: "), out int num))
                 {
+                    versuche++;
                     if (num == randint)
                     {
-                        Console.WriteLine("Diese Zahl ist richtig!");
+                        Console.Write("Zahl ist richtig! Du hast {0} Versuche benötigt.", versuche);
+
                         guessed = true;
+
+                        if (char.TryParse(FragenSpeichern("Noch einmal spielen?"), out char decision))
+                        {
+                            if (decision == 'y' || decision == 'Y')
+                            {
+                                guessed = false;
+                                randint = rnd.Next(1, 101);
+                            }
+                            else if (decision == 'n' || decision == 'N')
+                            {
+                                guessed = true;
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                guessed = true;
+                                Console.WriteLine("EingabeFehler: Program hört auf");
+                                Console.ReadKey();
+                                
+
+                            }
+
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nEingabefehler: Es wird nur Y/y oder N/n akzeptiert");
+                        }
                     }
                     else if (num < randint)
                     {
-                        Console.WriteLine("Die zahl ist grösser!\n");
+                        Console.WriteLine("Zahl ist zu klein! Nachster Versuch:\n");
                     }
                     else if (num > randint)
                     {
-                        Console.WriteLine("Die zahl ist kleiner!\n");
+                        Console.WriteLine("Zahl ist zu gross! Nachster Versuch:\n");
                     }
                 }
                 else
