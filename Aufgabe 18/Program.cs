@@ -28,7 +28,8 @@ namespace Aufgabe_18
                 Math.Floor((ts.TotalHours / 168)));
             Console.WriteLine("Alter in Days: {0}",
                 Math.Floor((ts.TotalDays)));
-
+            
+            Console.ReadKey();
         } 
         static string FragenSpeichern(string frage)
         {
