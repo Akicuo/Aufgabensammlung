@@ -40,29 +40,38 @@ namespace Memory
             PrintBoard(current_board, ExposedBoard);
             int tries = 0;
             bool running = true;
+            string StringNums = GetInputTillValid(4, "nums");
             while (running)
             {
+                Console.Clear();
+
                 
-                string StringNums = GetInputTillValid(4, "nums");
                 // First ccheck if both numbers are not the same, its not out of range in the board
                 int check = ValidPositions(StringNums, ExposedBoard)[0];
                 if (check == 1)
                 {
                     int[] tempdecleration1 = ValidPositions(StringNums, ExposedBoard);
                     UpdateTempBoardAndPrintIt(current_board, ExposedBoard, tempdecleration1);
+                    string StringNums = GetInputTillValid(4, "nums");
+
+
                     tries++;
+                }
+                else if (check == 8)
+                {
+                    Console.WriteLine($"Position is not valid.. : At least one position is out of range.");
                 }
                 else if (check == 4)
                 {
-                    Console.WriteLine($"Position is not valid.. : 2x the same position");
+                    Console.WriteLine($"Position is not valid.. : 2x the same position.");
                 }
                 else if (check == 6)
                 {
-                    Console.WriteLine($"Position is not valid.. : At atleast one positon is the symbol already visible / flipped over");
+                    Console.WriteLine($"Position is not valid.. : Atleast one positon is already flipped over.");
                 }
                 if (IsGameFinished(ExposedBoard))
                 {
-                    Console.WriteLine($"Congrats! You have finished the memory! | You used {tries} attempts until you made it");
+                    Console.WriteLine($"Congrats! You have finished the memory! | You used {tries} attempts until you made it.");
                     Console.ReadKey();
                     break;
                 }
@@ -123,6 +132,23 @@ namespace Memory
             x2--;
             y2--; // Corrected this line
             int valid = 1;
+            int[] values = {x1, y1, x2, y2};
+            for (int i = 0; i < 4; i++)
+            {
+                // Console.WriteLine("Debug Values:"+values[i]);
+                if (values[i] <= 4)
+                {
+                    
+                }
+                else
+                {
+                    valid = 8; // 2x The same Position
+                    int[] cant_continue = { valid, x1, y1, x2, y2 };
+                    return cant_continue;
+                    // Console.WriteLine("Debug Values not higher than 4:" + values[i]);
+                }
+
+            }
             if ($"{x1}{y1}" == $"{x2}{y2}")
             {
                 valid = 4; // 2x The same Position

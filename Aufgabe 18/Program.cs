@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Aufgabe_18
 {
@@ -10,27 +7,36 @@ namespace Aufgabe_18
     {
         static void Main(string[] args)
         {
-
-            string input = FragenSpeichern("Bitte gib ein Geburtsdatum ein:");
+            string input = FragenSpeichern("Bitte gib dein Geburtsdatum ein:");
             string[] array = new string[3];
-            array[0] = input.Split('.')[0]; // day //
-            array[1] = input.Split('.')[1]; // month //
-            array[2] = input.Split('.')[2]; // year//
+            array[0] = input.Split('.')[0]; // day
+            array[1] = input.Split('.')[1]; // month
+            array[2] = input.Split('.')[2]; // year
 
-            DateTime when = new DateTime(int.Parse(array[2]), int.Parse(array[1]), int.Parse(array[0]), 0, 0, 0);
-            TimeSpan ts = DateTime.Now.Subtract(when);
+            DateTime birthDate = new DateTime(int.Parse(array[2]), int.Parse(array[1]), int.Parse(array[0]));
+
+            TimeSpan ts = DateTime.Now.Subtract(birthDate);
+
+            DateTime today = DateTime.Today;
+           
+            int years = DateTime.Now.Year - birthDate.Year;
+            if (birthDate.Date > today.AddYears(-years)) years--; // https://stackoverflow.com/questions/9/how-do-i-calculate-someones-age-based-on-a-datetime-type-birthday
+
+
             
-            Console.WriteLine("Alter in Jahren: {0}",
-                Math.Floor((ts.TotalHours / 8760)));
-            Console.WriteLine("Alter in Monaten: {0}",
-                Math.Floor(ts.TotalHours * 0.001369));
-            Console.WriteLine("Alter in Wochen: {0}",
-                Math.Floor((ts.TotalHours / 168)));
-            Console.WriteLine("Alter in Days: {0}",
-                Math.Floor((ts.TotalDays)));
-            
+
+            // https://stackoverflow.com/questions/9/how-do-i-calculate-someones-age-based-on-a-datetime-type-birthday
+            int months = 12 * (today.Year - birthDate.Year) + today.Month - birthDate.Month;
+          // https://dotnetcodr.com/2015/10/30/calculate-the-number-of-months-between-two-dates-with-c/
+            if (birthDate.Date > today.AddMonths(-months)) months--;
+            Console.WriteLine("Alter in Jahren: {0}", years);
+            Console.WriteLine("Alter in Monaten: {0}", Math.Floor(Convert.ToDecimal(months)));
+            Console.WriteLine("Alter in Wochen: {0}", Math.Floor(ts.TotalDays / 7));
+            Console.WriteLine("Alter in Tagen: {0}", Math.Floor(ts.TotalDays));
+
             Console.ReadKey();
-        } 
+        }
+
         static string FragenSpeichern(string frage)
         {
             Console.Write(frage + " ");
