@@ -40,45 +40,78 @@ namespace Memory
             PrintBoard(current_board, ExposedBoard);
             int tries = 0;
             bool running = true;
-            string StringNums = GetInputTillValid(4, "nums");
+            bool first_iteration = false;
+            
             while (running)
             {
-                Console.Clear();
+                if (!first_iteration)
+                {
+                    Console.Clear(); // Clear at the start once first iteration finishes | issue lies within the printboard called before while loop
+                }
+                
+                PrintBoard(current_board, ExposedBoard); 
 
                 
-                // First ccheck if both numbers are not the same, its not out of range in the board
+                string StringNums = GetInputTillValid(4, "nums");
+
                 int check = ValidPositions(StringNums, ExposedBoard)[0];
                 if (check == 1)
                 {
-                    int[] tempdecleration1 = ValidPositions(StringNums, ExposedBoard);
-                    UpdateTempBoardAndPrintIt(current_board, ExposedBoard, tempdecleration1);
-                    string StringNums = GetInputTillValid(4, "nums");
+                    int[] positions = ValidPositions(StringNums, ExposedBoard);
+                    bool[,] TemporaryExposedBoard = UpdateTempBoard(current_board, ExposedBoard, positions);
+
+                    int x1 = positions[1]; int y1 = positions[2]; int x2 = positions[3]; int y2 = positions[4];
+                    PrintBoard(current_board, TemporaryExposedBoard);
+
+                    string wol = ReturnAndPrintHitOrFail(current_board, positions); 
+
+                    Console.ReadKey();
 
 
+                    if (wol == "hit")
+                    {
+                        
+                        ExposedBoard[x1, y1] = true;
+                        ExposedBoard[x2, y2] = true;
+                    }
+                    else
+                    {
+                        //reset if it’s a miss
+                        ExposedBoard[x1, y1] = false;
+                        ExposedBoard[x2, y2] = false;
+                    }
+
+                    Console.Clear(); 
                     tries++;
                 }
                 else if (check == 8)
                 {
                     Console.WriteLine($"Position is not valid.. : At least one position is out of range.");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
                 else if (check == 4)
                 {
                     Console.WriteLine($"Position is not valid.. : 2x the same position.");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
                 else if (check == 6)
                 {
-                    Console.WriteLine($"Position is not valid.. : Atleast one positon is already flipped over.");
+                    Console.WriteLine($"Position is not valid.. : At least one position is already flipped over.");
+                    Console.ReadKey();
+                    Console.Clear();
                 }
+
                 if (IsGameFinished(ExposedBoard))
                 {
                     Console.WriteLine($"Congrats! You have finished the memory! | You used {tries} attempts until you made it.");
                     Console.ReadKey();
                     break;
                 }
-
-
-
             }
+
+
         }
 
 
@@ -90,23 +123,16 @@ namespace Memory
 
 
 
-
-        static void UpdateTempBoardAndPrintIt(string[,] current_board, bool[,] ExposedBoard, int[] positions)
+        static string ReturnAndPrintHitOrFail(string[,] current_board, int[] positions)
         {
             int x1 = positions[1]; int y1 = positions[2]; int x2 = positions[3]; int y2 = positions[4];
-
-            ExposedBoard[x1, y1] = true;
-            ExposedBoard[x2, y2] = true;
-            PrintBoard(current_board, ExposedBoard);
-            
-
-            // now decide if it was a hit
             if (current_board[x1, y1] == current_board[x2, y2])
             {
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.Write("That was a successful hit!");
                 Console.ResetColor();
                 Console.WriteLine();
+                return "hit";
             }
             else
             {
@@ -114,9 +140,19 @@ namespace Memory
                 Console.Write("That was not a hit. Try again!");
                 Console.ResetColor();
                 Console.WriteLine();
-                ExposedBoard[x1, y1] = false;
-                ExposedBoard[x2, y2] = false;
+                return "not";
             }
+        }
+        static bool[,] UpdateTempBoard(string[,] current_board, bool[,] ExposedBoard, int[] positions)
+        {
+            int x1 = positions[1]; int y1 = positions[2]; int x2 = positions[3]; int y2 = positions[4];
+
+            ExposedBoard[x1, y1] = true;
+            ExposedBoard[x2, y2] = true;
+
+            
+
+            return ExposedBoard;
         }
         static int[] ValidPositions(string StringPos, bool[,] ExposedBoard)
         {
@@ -130,7 +166,7 @@ namespace Memory
             x1--;
             y1--;
             x2--;
-            y2--; // Corrected this line
+            y2--; 
             int valid = 1;
             int[] values = {x1, y1, x2, y2};
             for (int i = 0; i < 4; i++)
@@ -158,7 +194,7 @@ namespace Memory
                 valid = 6; // 2x in one position its atleast alrêady flipped over
 
             }
-            int[] ints = { valid, x1, y1, x2, y2 }; // Corrected this line
+            int[] ints = { valid, x1, y1, x2, y2 };
             return ints;
         }
         static bool IsGameFinished(bool[,] ExposedBoard)
