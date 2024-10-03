@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +16,7 @@ namespace Memory
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
 
             Console.WriteLine("MEMORY -> Hinter den ? verstecken sich Symbole, die paarweise vorkommen. Finden Sie diese!");
             Console.WriteLine("Zum Aufdecken wählen Sie zwei Positionen in der Form: Zeile1Spalte1Zeile2Spalte2.");
@@ -25,69 +28,74 @@ namespace Memory
         { "-", "-", "-", "-"},
         { "-", "-", "-", "-" }
     };
-            string[,] filled_icon_board = FillBoard(card_list);
+             bool[,] ExposedBoard = {
+        { false, false, false, false},
+        { false, false, false, false},
+        { false, false, false, false},
+        { false, false, false, false}
+    };
+            string[,] board = FillBoard(card_list);
 
+            PrintBoard(board, ExposedBoard);
+
+
+
+
+
+
+
+
+
+           
+        }
+        static void PrintBoard(string[,] CurrentBoard, bool[,] ExposedBoard)
+        {
+            Console.WriteLine($"     1  2  3  4");
             for (int row = 0; row < 4; row++)
             {
+                int instance_int = row;
+                instance_int++;
+                Console.Write($"  {instance_int} ");
                 for (int column = 0; column < 4; column++)
                 {
-                    Console.Write($"{filled_icon_board[row, column]} ");
+                    if (ExposedBoard[row, column] == false)
+                    {
+                        Console.Write($"{CurrentBoard[row, column]} ");
+                    }
+                    else
+                    {
+                        Console.Write($"❓  ");
+                    }
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine();
 
-
-
-
-
-
-
-
-
-            // ♬ ☢ ⌨ ❒  〄 🦴 💵  🐻‍❄//
         }
         static string[,] FillBoard(string[,] board)
         {
-            string[] icons = { "A", "E", "U", "I", "Y", "W", "T", "F"};
+            string[] icons = { "💲", "💩", "🧙", "☃️", "🤖", "🍄", "😿", "🧞" };
             int[] icons_left = { 2, 2, 2, 2, 2, 2, 2, 2 };
+            Random random = new Random(); // 
+
             for (int row = 0; row < 4; row++) // fill row <->
             {
-
-                
-
-                for (int column = 0; column < 4; column++) // fill column |
+                for (int column = 0; column < 4; column++) // fill column ↕
                 {
-                    bool filled=false;
+                    bool filled = false;
                     while (filled == false)
                     {
-                        int num = new Random().Next(0, 8);
-                        Console.WriteLine(num);
+                        int num = random.Next(0, 8);
                         if (icons_left[num] > 0)
                         {
                             board[row, column] = icons[num];
                             icons_left[num] -= 1;
                             filled = true;
-
                         }
-                        else
-                        {
-                            
-                        }
-                        
                     }
-                    
-
-
                 }
-
             }
             return board;
-        }
-        static int GenRandomNum(int min, int max)
-        {
-            Random rnd = new Random(); // Von Stackoverflow.com //
-            int randint = rnd.Next(min, max); // Von Stackoverflow.com //
-            return randint;
         }
     }
 }
