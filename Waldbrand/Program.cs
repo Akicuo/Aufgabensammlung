@@ -38,24 +38,33 @@ namespace Memory
     };
             current_board = FillBoard(current_board); // Initiated as game starts 
             PrintBoard(current_board, ExposedBoard);
+            int tries = 0;
             bool running = true;
             while (running)
             {
                 
                 string StringNums = GetInputTillValid(4, "nums");
                 // First ccheck if both numbers are not the same, its not out of range in the board
-                if (ValidPositions(StringNums, ExposedBoard)[0] == 1)
+                int check = ValidPositions(StringNums, ExposedBoard)[0];
+                if (check == 1)
                 {
                     int[] tempdecleration1 = ValidPositions(StringNums, ExposedBoard);
                     UpdateTempBoardAndPrintIt(current_board, ExposedBoard, tempdecleration1);
+                    tries++;
                 }
-                else
+                else if (check == 4)
                 {
-                    Console.WriteLine($"Position is not valid.. Try Again...");
+                    Console.WriteLine($"Position is not valid.. : 2x the same position");
+                }
+                else if (check == 6)
+                {
+                    Console.WriteLine($"Position is not valid.. : At atleast one positon is the symbol already visible / flipped over");
                 }
                 if (IsGameFinished(ExposedBoard))
                 {
-                    Console.WriteLine($"Great job! You have finished the memory!");
+                    Console.WriteLine($"Congrats! You have finished the memory! | You used {tries} attempts until you made it");
+                    Console.ReadKey();
+                    break;
                 }
 
 
@@ -116,11 +125,11 @@ namespace Memory
             int valid = 1;
             if ($"{x1}{y1}" == $"{x2}{y2}")
             {
-                valid = 0;
+                valid = 4; // 2x The same Position
             }
             else if (ExposedBoard[x1, y1] == true || ExposedBoard[x2, y2] == true)
             {
-                valid = 0;
+                valid = 6; // 2x in one position its atleast alrêady flipped over
 
             }
             int[] ints = { valid, x1, y1, x2, y2 }; // Corrected this line
