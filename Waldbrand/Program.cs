@@ -37,26 +37,31 @@ namespace Memory
         { false, false, false, false}
     };
             current_board = FillBoard(current_board); // Initiated as game starts 
+            PrintBoard(current_board, ExposedBoard);
             bool running = true;
             while (running)
             {
-                PrintBoard(current_board, ExposedBoard);
+                
                 string StringNums = GetInputTillValid(4, "nums");
                 // First ccheck if both numbers are not the same, its not out of range in the board
                 if (ValidPositions(StringNums, ExposedBoard)[0] == 1)
                 {
-
+                    int[] tempdecleration1 = ValidPositions(StringNums, ExposedBoard);
+                    UpdateTempBoardAndPrintIt(current_board, ExposedBoard, tempdecleration1);
                 }
                 else
                 {
-                    Console.WriteLine($"Position ist nicht Valid");
+                    Console.WriteLine($"Position is not valid.. Try Again...");
+                }
+                if (IsGameFinished(ExposedBoard))
+                {
+                    Console.WriteLine($"Great job! You have finished the memory!");
                 }
 
 
 
             }
         }
-    
 
 
 
@@ -68,29 +73,81 @@ namespace Memory
 
 
 
+        static void UpdateTempBoardAndPrintIt(string[,] current_board, bool[,] ExposedBoard, int[] positions)
+        {
+            int x1 = positions[1]; int y1 = positions[2]; int x2 = positions[3]; int y2 = positions[4];
+
+            ExposedBoard[x1, y1] = true;
+            ExposedBoard[x2, y2] = true;
+            PrintBoard(current_board, ExposedBoard);
+            
+
+            // now decide if it was a hit
+            if (current_board[x1, y1] == current_board[x2, y2])
+            {
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.Write("That was a successful hit!");
+                Console.ResetColor();
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.Red;
+                Console.Write("That was not a hit. Try again!");
+                Console.ResetColor();
+                Console.WriteLine();
+                ExposedBoard[x1, y1] = false;
+                ExposedBoard[x2, y2] = false;
+            }
+        }
         static int[] ValidPositions(string StringPos, bool[,] ExposedBoard)
         {
-            int[] positions = new int[4];
-            int index = 0;
-            foreach (char c in StringPos)
+            int[] positions = new int[5]; // Initialize with 5 elements
+
+            for (int index = 0; index < StringPos.Length; index++)
             {
-                positions[index] = c; index++;
+                positions[index] = Convert.ToInt32(StringPos.Substring(index, 1));
             }
             int x1 = positions[0]; int y1 = positions[1]; int x2 = positions[2]; int y2 = positions[3];
+            x1--;
+            y1--;
+            x2--;
+            y2--; // Corrected this line
             int valid = 1;
-            if (x1 == x2 && y1 == y2)
+            if ($"{x1}{y1}" == $"{x2}{y2}")
             {
                 valid = 0;
             }
-            else if (ExposedBoard[x1, y1] || ExposedBoard[x2, y2])
+            else if (ExposedBoard[x1, y1] == true || ExposedBoard[x2, y2] == true)
             {
                 valid = 0;
+
             }
-            int[] ints = { valid, x1, x2, y1, y2 };
+            int[] ints = { valid, x1, y1, x2, y2 }; // Corrected this line
             return ints;
         }
+        static bool IsGameFinished(bool[,] ExposedBoard)
+        {
+            for (int row = 0; row < 4; row++) // fill row <->
+            {
+                for (int column = 0; column < 4; column++) // fill column ↕
+                {
+                    if (ExposedBoard[row, column] == false)
+                    {
+                        return false;
+                    }
+
+                }
+
+                
+            }
+            return true;
+        }
         
+    
         
+
+
         static (bool, string, int, int) GetPositionValidity() // return true icon x y
         {
             return (false, "ee", 1, 1);
@@ -166,13 +223,13 @@ namespace Memory
                 Console.Write($"  {instance_int} ");
                 for (int column = 0; column < 4; column++)
                 {
-                    if (ExposedBoard[row, column] == false)
+                    if (ExposedBoard[row, column] == true)
                     {
                         Console.Write($"{CurrentBoard[row, column]} ");
                     }
                     else
                     {
-                        Console.Write($"❓  ");
+                        Console.Write($"❓");
                     }
                 }
                 Console.WriteLine();
@@ -180,6 +237,7 @@ namespace Memory
             Console.WriteLine();
 
         }
+       
         static string[,] FillBoard(string[,] board)
         {
             string[] icons = { "💲", "💩", "🧙", "☃️", "🤖", "🍄", "😿", "🧞" };
